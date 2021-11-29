@@ -2,10 +2,14 @@
 package Vista;
 
 import Controlador.ConectarBD;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Principal extends javax.swing.JFrame {
     
+    static private Connection conexion;
    
     public Principal() {
         
@@ -126,7 +130,15 @@ public class Principal extends javax.swing.JFrame {
 
     
     private void ListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarTodosActionPerformed
-    
+        
+        this.setContentPane(panelListarTodos);
+        panelListarTodos.conexion=conexion;
+        try {
+            panelListarTodos.rellenarArray();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pack();
        
        
     }//GEN-LAST:event_ListarTodosActionPerformed
@@ -137,8 +149,9 @@ public class Principal extends javax.swing.JFrame {
     
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -166,7 +179,8 @@ public class Principal extends javax.swing.JFrame {
         });
         
         ConectarBD conec= new ConectarBD();
-        conec.conectar();
+        conexion=conec.conectar();
+      
     }
  
 

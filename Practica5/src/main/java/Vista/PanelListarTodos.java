@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Modelo.Empleado;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -39,9 +40,17 @@ public class PanelListarTodos extends javax.swing.JPanel {
         
         int numCols = rsmd.getColumnCount();
         
-        while (rs.next()) {
+        
+        //Voy guardando los datos de las columnas en variables
+        //que serán los parámetros para el constructor del futuro empleado
+        int n;
+        
+        n=(Integer.parseInt(rs.getString(1)));
+        
+        while (rs.next()){
+            
            for (int i = 1; i <= numCols; i++) {
-               System.out.println(rsmd.getColumnName(i));
+               //System.out.println(rsmd.getColumnName(i));
                
                
             }

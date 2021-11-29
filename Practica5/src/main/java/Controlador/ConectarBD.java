@@ -30,7 +30,7 @@ public class ConectarBD {
 
         try {
           // en Servidor remoto Connection con = DriverManager.getConnection("jdbc:oracle:thin:@server:1521:infor","banquero","banquero");
-          Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/empresa","empresa","empresa");
+          Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Empresa","empresa","empresa");
           //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","banquero","banquero");
           //Connection con = DriverManager.getConnection("jdbc:odbc:DB","","");
           System.out.println("Conectado");
@@ -40,7 +40,7 @@ public class ConectarBD {
              que producurï¿½ un ResultSet que sï¿½lo se puede recorrer hacia delante con next()
            */
           Statement stmt = con.createStatement();
-          ResultSet rs = stmt.executeQuery("SELECT * FROM empleado WHERE apellido = 'GARCIA'");
+          ResultSet rs = stmt.executeQuery("SELECT * FROM empleado");
           ResultSetMetaData rsmd = rs.getMetaData();
 
           int numCols = rsmd.getColumnCount();
@@ -59,7 +59,7 @@ public class ConectarBD {
 
           rs.close();
           stmt.close();
-          con.close();
+          
 
     }
     catch (Exception e) {

@@ -16,7 +16,7 @@ public class ConectarBD {
 
     
     
-    public void conectar(){
+    public Connection conectar(){
         
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -25,7 +25,7 @@ public class ConectarBD {
         }
         catch (ClassNotFoundException e) {
             System.out.println("JDBC driver falied to load."+e.getMessage());
-            return;
+            return null;
         }
 
         try {
@@ -60,11 +60,14 @@ public class ConectarBD {
           rs.close();
           stmt.close();
           
-
+          return con;
+          
     }
     catch (Exception e) {
       System.out.println(e);
+      return null;
     }
+        
         
     }
 }

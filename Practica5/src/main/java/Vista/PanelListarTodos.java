@@ -1,10 +1,11 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Vista;
 
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
@@ -14,7 +15,7 @@ import javax.swing.DefaultListModel;
  */
 public class PanelListarTodos extends javax.swing.JPanel {
 
-  
+    Connection conexion;
     ArrayList empleados=new ArrayList();
     DefaultListModel lista= new DefaultListModel();
     
@@ -27,9 +28,25 @@ public class PanelListarTodos extends javax.swing.JPanel {
         
     }
     
-    public void rellenarArray(){
+    public void rellenarArray() throws SQLException{
         
         empleados.clear();
+        
+        Statement stmt = conexion.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM empleado");
+        ResultSetMetaData rsmd = rs.getMetaData();
+        
+        
+        int numCols = rsmd.getColumnCount();
+        
+        while (rs.next()) {
+           for (int i = 1; i <= numCols; i++) {
+               System.out.println(rsmd.getColumnName(i));
+               
+               
+            }
+            System.out.println("");
+          }
        
     }
     

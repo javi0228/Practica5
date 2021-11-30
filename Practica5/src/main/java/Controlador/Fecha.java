@@ -39,7 +39,7 @@ public class Fecha implements Serializable{
 
     @Override
     public String toString() {
-        return ""+cal.get(Calendar.DATE)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR); //To change body of generated methods, choose Tools | Templates.
+        return ""+cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DATE); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Controlador.*;
+import Modelo.*;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
@@ -14,7 +17,7 @@ import javax.swing.DefaultListModel;
  */
 public class PanelListarTodos extends javax.swing.JPanel {
 
-  
+    Connection conexion;
     ArrayList empleados=new ArrayList();
     DefaultListModel lista= new DefaultListModel();
     
@@ -27,9 +30,47 @@ public class PanelListarTodos extends javax.swing.JPanel {
         
     }
     
-    public void rellenarArray(){
+    public void rellenarArray() throws SQLException{
         
         empleados.clear();
+        
+        Statement stmt = conexion.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM empleado");
+        ResultSetMetaData rsmd = rs.getMetaData();
+        
+        
+        int numCols = rsmd.getColumnCount();
+        
+        
+        //Voy guardando los datos de las columnas en variables
+        //que serán los parámetros para el constructor del futuro empleado
+        
+        int numero;
+        String nombre;
+        String apellido;
+        String foto;
+        float sueldo;
+        float sueldoMaximo;
+        String[] datosfecha=new String[2]; //array de string para almacenar el dia, mes y año 
+                                           // mediante split
+
+        while (rs.next()){
+            
+            numero=(Integer.parseInt(rs.getString(1)));
+            nombre=rs.getString(2);
+            apellido=rs.getString(3);
+            foto=rs.getString(4);
+            sueldo=(Float.parseFloat(rs.getString(5)));
+            sueldoMaximo=(Float.parseFloat(rs.getString(6)));
+            datosfecha=rs.getString(7).split("-");//[0]=año,[1]=mes,[2]=dia
+            
+            Empleado emp=new Empleado(numero, nombre, apellido, foto, sueldo, sueldoMaximo,
+                    Integer.parseInt(datosfecha[0]), Integer.parseInt(datosfecha[1]), Integer.parseInt(datosfecha[2]));
+            
+            empleados.add(emp);
+            
+            System.out.println("");
+        }
        
     }
     

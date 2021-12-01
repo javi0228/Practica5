@@ -11,7 +11,8 @@ public class Principal extends javax.swing.JFrame {
     
     static private Connection conexion;
    
-    public Principal() {
+    public Principal() throws SQLException {
+       
         
         initComponents();
         labelNoDatos.setVisible(false);
@@ -126,7 +127,9 @@ public class Principal extends javax.swing.JFrame {
         this.setContentPane(panelListar);
         panelListar.conexion=conexion;
         try {
-            panelListar.rellenarArray();
+            panelListar.inicializarCampos();
+            panelListar.conectar("SELECT * FROM empleado");
+            panelListar.apagarBotones();
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -182,7 +185,11 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Principal().setVisible(true);
+            try {
+                new Principal().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         ConectarBD conec= new ConectarBD();

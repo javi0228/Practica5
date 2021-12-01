@@ -33,14 +33,14 @@ public class PanelListarTodos extends javax.swing.JPanel {
         jList.setModel(lista);
     }
     
-    public int rellenarArray(String consulta) throws SQLException{
-        int numCols ;
+    public void rellenarArray(String consulta) throws SQLException{
+        
         empleados.clear();
         
         try (Statement stmt = conexion.createStatement(); ResultSet rs = stmt.executeQuery(consulta)) {
             
             ResultSetMetaData rsmd = rs.getMetaData();
-            numCols= rsmd.getColumnCount();
+            
             
             //Voy guardando los datos de las columnas en variables
             //que serán los parámetros para el constructor del futuro empleado
@@ -74,8 +74,6 @@ public class PanelListarTodos extends javax.swing.JPanel {
             
             
         }
-        
-        return numCols;
     }
     
     public void mostrarEmpleados(){
@@ -182,29 +180,27 @@ public class PanelListarTodos extends javax.swing.JPanel {
     }
     
     private void setMensajeExito(String mensaje){
-        JOptionPane.showMessageDialog(this,mensaje,"Consulta realizada con éxito",JOptionPane.YES_OPTION);
+        JOptionPane.showMessageDialog(this,mensaje,"Consulta realizada con éxito",JOptionPane.DEFAULT_OPTION);
     }
     
     
     private void btFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFiltrarActionPerformed
         
-        Fecha fechaFinal=null;
-        Fecha fechaInicial=null;
+        Fecha fechaFinal;
+        Fecha fechaInicial;
         
         try{
             fechaFinal= new Fecha(DateChooserFinal.getCalendar().get(Calendar.YEAR),
-                DateChooserFinal.getCalendar().get(Calendar.MONTH)+1,DateChooserFinal.getCalendar().get(Calendar.DATE));
+                DateChooserFinal.getCalendar().get(Calendar.MONTH),DateChooserFinal.getCalendar().get(Calendar.DATE));
             
 
             fechaInicial= new Fecha(DateChooserInicial.getCalendar().get(Calendar.YEAR),
-                DateChooserInicial.getCalendar().get(Calendar.MONTH)+1,DateChooserInicial.getCalendar().get(Calendar.DATE));
-           
-            System.out.println("Final:"+fechaFinal+" Inicial: "+fechaInicial);
+                DateChooserInicial.getCalendar().get(Calendar.MONTH),DateChooserInicial.getCalendar().get(Calendar.DATE));
             
-            int numCols=rellenarArray("SELECT * FROM empleado WHERE FECHAALTA BETWEEN "
+            rellenarArray("SELECT * FROM empleado WHERE FECHAALTA BETWEEN "
                     +"'"+fechaInicial+"'"+" AND '"+fechaFinal+"'");
             
-            setMensajeExito("Se han encontrado "+numCols+" empeleados.");
+            setMensajeExito("Se han encontrado "+empleados.size()+" empeleados.");
             
             mostrarEmpleados();
             

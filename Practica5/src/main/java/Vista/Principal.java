@@ -123,7 +123,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ListarActionPerformed
 
     private void Listar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar1ActionPerformed
-        
+        this.setContentPane(panelListar);
+        panelListar.conexion=conexion;
+        try {
+            panelListar.rellenarArray();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pack();
       
         
     }//GEN-LAST:event_Listar1ActionPerformed
@@ -187,8 +194,9 @@ public class Principal extends javax.swing.JFrame {
     
     //private final PanelListar panelListar= new PanelListar();
     private final PanelListarTodos panelListarTodos=new PanelListarTodos();
+    private final PanelListar panelListar= new PanelListar();
     
-    
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AcercaDe;

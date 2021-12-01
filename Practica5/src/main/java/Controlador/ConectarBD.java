@@ -30,7 +30,7 @@ public class ConectarBD {
 
         try {
           // en Servidor remoto Connection con = DriverManager.getConnection("jdbc:oracle:thin:@server:1521:infor","banquero","banquero");
-          Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/empresa","empresa","empresa");
+          Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Empresa","empresa","empresa");
           //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","banquero","banquero");
           //Connection con = DriverManager.getConnection("jdbc:odbc:DB","","");
           System.out.println("Conectado");
@@ -65,8 +65,10 @@ public class ConectarBD {
     }
     catch (Exception e) {
       System.out.println(e);
+      return null;
     }
-        return null;
+        
+        
         
     }
 }

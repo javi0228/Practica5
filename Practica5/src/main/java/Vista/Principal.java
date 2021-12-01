@@ -1,10 +1,9 @@
 
 package Vista;
 
-import Controlador.ConectarBD;
+
 import java.sql.*;
-import java.util.*;
-import javax.swing.JOptionPane;
+
 
 
 public class Principal extends javax.swing.JFrame {
@@ -14,7 +13,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         initComponents();
-        labelNoDatos.setVisible(false);
+        
     }
     
    
@@ -28,8 +27,10 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         labelPractica = new javax.swing.JLabel();
-        labelNoDatos = new javax.swing.JLabel();
         BarraMenu = new javax.swing.JMenuBar();
+        MenuConectarDesconectar = new javax.swing.JMenu();
+        ConectarItem = new javax.swing.JMenuItem();
+        DesconectarItem = new javax.swing.JMenuItem();
         Listar = new javax.swing.JMenu();
         Listar1 = new javax.swing.JMenuItem();
         ListarTodos = new javax.swing.JMenuItem();
@@ -42,9 +43,20 @@ public class Principal extends javax.swing.JFrame {
         labelPractica.setFont(new java.awt.Font("DialogInput", 1, 24)); // NOI18N
         labelPractica.setText("PRÁCTICA 5");
 
-        labelNoDatos.setFont(new java.awt.Font("DialogInput", 1, 24)); // NOI18N
-        labelNoDatos.setForeground(new java.awt.Color(255, 51, 51));
-        labelNoDatos.setText("NO HAY DATOS EN LA LISTA");
+        MenuConectarDesconectar.setText("Conectar/Desconectar");
+
+        ConectarItem.setText("Conectar BD");
+        ConectarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConectarItemActionPerformed(evt);
+            }
+        });
+        MenuConectarDesconectar.add(ConectarItem);
+
+        DesconectarItem.setText("Desconectar BD");
+        MenuConectarDesconectar.add(DesconectarItem);
+
+        BarraMenu.add(MenuConectarDesconectar);
 
         Listar.setLabel("Listar");
         Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,23 +102,16 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(labelNoDatos))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(243, 243, 243)
-                        .addComponent(labelPractica)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addGap(234, 234, 234)
+                .addComponent(labelPractica)
+                .addContainerGap(262, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(187, Short.MAX_VALUE)
+                .addGap(155, 155, 155)
                 .addComponent(labelPractica)
-                .addGap(63, 63, 63)
-                .addComponent(labelNoDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,6 +140,9 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Listar1ActionPerformed
 
+    public static void setConexion(Connection con){
+        Principal.conexion=con;
+    }
     
     private void ListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarTodosActionPerformed
         
@@ -145,10 +153,14 @@ public class Principal extends javax.swing.JFrame {
        
        
     }//GEN-LAST:event_ListarTodosActionPerformed
+
+    private void ConectarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarItemActionPerformed
+        this.setContentPane(panelConectar);
+        
+        
+        pack();
+    }//GEN-LAST:event_ConectarItemActionPerformed
     
-    private void setMensajeError(String mensaje){
-        JOptionPane.showMessageDialog(this,mensaje,"Error en la base de datos",JOptionPane.ERROR_MESSAGE);
-    }
     
     /**
      * @param args the command line arguments
@@ -180,28 +192,25 @@ public class Principal extends javax.swing.JFrame {
             new Principal().setVisible(true);
         });
         
-        ConectarBD conec= new ConectarBD();
         
-        conexion=conec.conectar();
-      
+       
     }
- 
-
-    
-    //private final PanelListar panelListar= new PanelListar();
+   
     private final PanelListarTodos panelListarTodos=new PanelListarTodos();
     private final PanelListar panelListar= new PanelListar();
-    
+    private final PanelConectar panelConectar= new PanelConectar();
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AcercaDe;
     private javax.swing.JMenu Ayuda;
     private javax.swing.JMenuBar BarraMenu;
+    private javax.swing.JMenuItem ConectarItem;
+    private javax.swing.JMenuItem DesconectarItem;
     private javax.swing.JMenu Listar;
     private javax.swing.JMenuItem Listar1;
     private javax.swing.JMenuItem ListarTodos;
-    private javax.swing.JLabel labelNoDatos;
+    private javax.swing.JMenu MenuConectarDesconectar;
     private javax.swing.JLabel labelPractica;
     // End of variables declaration//GEN-END:variables
 

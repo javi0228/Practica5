@@ -5,7 +5,12 @@
  */
 package Controlador;
 
+
+import Vista.Principal;
+import java.awt.Component;
 import java.sql.*;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -16,7 +21,7 @@ public class ConectarBD {
 
     
     
-    public Connection conectar(){
+    public Connection conectar(String user,String password) throws SQLException{
         
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
@@ -28,12 +33,14 @@ public class ConectarBD {
             return null;
         }
 
-        try {
+        
           // en Servidor remoto Connection con = DriverManager.getConnection("jdbc:oracle:thin:@server:1521:infor","banquero","banquero");
-          Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Empresa","empresa","empresa");
+          Connection conn;
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/Empresa",user,password);
+         
           //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","banquero","banquero");
           //Connection con = DriverManager.getConnection("jdbc:odbc:DB","","");
-          System.out.println("Conectado");
+          
 
           /* 
              Con esta versiï¿½n, sin parï¿½metros, del mï¿½todo createStatement(), creamos un objeto Statement
@@ -59,16 +66,13 @@ public class ConectarBD {
 
 //          rs.close();
 //          stmt.close();
-          
-          return con;
-          
-    }
-    catch (Exception e) {
-      System.out.println(e);
-      return null;
-    }
-        
-        
+            
+            return conn;
         
     }
+    
+    Principal p;
+    
+    
+   
 }

@@ -40,7 +40,7 @@ public class PanelListar extends javax.swing.JPanel {
         
         try{
             this.stmt = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rset=stmt.executeQuery(consulta);
+            this.rset=stmt.executeQuery(consulta);
         
             if(rset.next()){
                 rset.beforeFirst();

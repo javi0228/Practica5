@@ -127,8 +127,8 @@ public class Principal extends javax.swing.JFrame {
         this.setContentPane(panelListar);
         panelListar.conexion=conexion;
         try {
-            panelListar.inicializarCampos();
             panelListar.conectar("SELECT * FROM empleado");
+            panelListar.inicializarCampos();
             panelListar.apagarBotones();
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);

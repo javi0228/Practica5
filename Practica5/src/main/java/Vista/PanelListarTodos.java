@@ -38,10 +38,6 @@ public class PanelListarTodos extends javax.swing.JPanel {
         try (Statement stmt = conexion.createStatement(); ResultSet rs = stmt.executeQuery(consulta)) {
             ResultSetMetaData rsmd = rs.getMetaData();
             
-            
-            int numCols = rsmd.getColumnCount();
-            
-            
             //Voy guardando los datos de las columnas en variables
             //que serán los parámetros para el constructor del futuro empleado
             
@@ -52,7 +48,7 @@ public class PanelListarTodos extends javax.swing.JPanel {
             float sueldo;
             float sueldoMaximo;
             String[] datosfecha; //array de string para almacenar el dia, mes y año
-            // mediante split
+                                 // mediante split
             
             while (rs.next()){
                 
@@ -68,7 +64,7 @@ public class PanelListarTodos extends javax.swing.JPanel {
                         Integer.parseInt(datosfecha[0]), Integer.parseInt(datosfecha[1]), Integer.parseInt(datosfecha[2]));
                 
                 empleados.add(emp);
-                //System.out.println("DIA EMP: "+emp.getFechaAlta().getMes());
+               
                 System.out.println("");
             }
             
@@ -122,23 +118,23 @@ public class PanelListarTodos extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(254, 254, 254)
-                .addComponent(btMostrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(109, 109, 109))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(DateChooserInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(48, 48, 48)
                         .addComponent(btFiltrar)
-                        .addGap(83, 83, 83)
+                        .addGap(68, 68, 68)
                         .addComponent(DateChooserFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))))
+                        .addGap(66, 66, 66))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(89, 89, 89))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(237, 237, 237)
+                .addComponent(btMostrar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,9 +146,9 @@ public class PanelListarTodos extends javax.swing.JPanel {
                     .addComponent(btFiltrar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addComponent(btMostrar)
-                .addGap(58, 58, 58))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -185,11 +181,7 @@ public class PanelListarTodos extends javax.swing.JPanel {
             fechaInicial= new Fecha(DateChooserInicial.getCalendar().get(Calendar.YEAR),
                 DateChooserInicial.getCalendar().get(Calendar.MONTH)+1,DateChooserInicial.getCalendar().get(Calendar.DATE));
         
-        }catch(NullPointerException ex){
-            setMensajeError("Ambas fechas deben estar rellenas");
-        }
-        
-        try {
+            
             
             empleados.clear();
             lista.removeAllElements();
@@ -199,7 +191,11 @@ public class PanelListarTodos extends javax.swing.JPanel {
             
         } catch (SQLException ex) {
             setMensajeError("Error al realizar la consulta.");
+        }catch(NullPointerException ex){
+            setMensajeError("Ambas fechas deben estar rellenas");
         }
+        
+        
         
        
         

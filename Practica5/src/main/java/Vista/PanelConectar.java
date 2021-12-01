@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class PanelConectar extends javax.swing.JPanel {
 
-    static private Connection conexion;
+    static private Connection conexion=null;
     /**
      * Creates new form PanelConectar
      */
@@ -116,6 +116,8 @@ public class PanelConectar extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 setMensajeError("El usuario o la contraseña no son válidos");
             }
+        }else{
+            setMensajeError("Las contraseñas introducidas no coinciden");
         }
     }//GEN-LAST:event_btConectarActionPerformed
 
@@ -135,12 +137,13 @@ public class PanelConectar extends javax.swing.JPanel {
     
     
     
+    @SuppressWarnings("empty-statement")
     private boolean comprobarContraseña(){
         
         char[] arr_contraseña=contraseñaField.getPassword();
         char[] arr_contraseñaConfirm=confirmContraseñaField.getPassword();
         
-        String contraseña=Arrays.toString(arr_contraseña);;
+        String contraseña=Arrays.toString(arr_contraseña);
         String contraseñaConfirm=Arrays.toString(arr_contraseñaConfirm);
         
         return contraseña.equals(contraseñaConfirm);

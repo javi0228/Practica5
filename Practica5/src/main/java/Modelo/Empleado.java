@@ -89,5 +89,13 @@ public class Empleado {
     public Fecha getFechaAlta(){
         return fechaAlta;
     }
+
+    @Override
+    public String toString() {
+        return "\n "+numero+"\n  "+nombre+"\n  "+apellido+"\n  "+foto+
+                "\n  "+sueldo+"\n  "+sueldoMaximo+"\n  "+fechaAlta;
+    }
+    
+    
     
 }

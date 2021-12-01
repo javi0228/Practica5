@@ -39,26 +39,26 @@ public class ConectarBD {
              Con esta versiï¿½n, sin parï¿½metros, del mï¿½todo createStatement(), creamos un objeto Statement
              que producurï¿½ un ResultSet que sï¿½lo se puede recorrer hacia delante con next()
            */
-          Statement stmt = con.createStatement();
-          ResultSet rs = stmt.executeQuery("SELECT * FROM empleado");
-          ResultSetMetaData rsmd = rs.getMetaData();
-
-          int numCols = rsmd.getColumnCount();
-
-          while (rs.next()) {
-            for (int i = 1; i <= numCols; i++) {
-              System.out.print(rs.getString(i) + " ");
-            }
-            System.out.println("");
-          }
+//          Statement stmt = con.createStatement();
+//          ResultSet rs = stmt.executeQuery("SELECT * FROM empleado WHERE apellido = 'GARCIA'");
+//          ResultSetMetaData rsmd = rs.getMetaData();
+//
+//          int numCols = rsmd.getColumnCount();
+//
+//          while (rs.next()) {
+//            for (int i = 1; i <= numCols; i++) {
+//              System.out.print(rs.getString(i) + " ");
+//            }
+//            System.out.println("");
+//          }
 
 
           /*int count = stmt.executeUpdate("INSERT INTO  " +
                                                 "VALUES (1031,'AndrÃ©s','PEREZ','default.jpg',2500,3000,'10/17/2021')");
           System.out.print("Insetadas: " + count + "filas");*/
 
-          rs.close();
-          stmt.close();
+//          rs.close();
+//          stmt.close();
           
           return con;
           
@@ -67,6 +67,7 @@ public class ConectarBD {
       System.out.println(e);
       return null;
     }
+        
         
         
     }

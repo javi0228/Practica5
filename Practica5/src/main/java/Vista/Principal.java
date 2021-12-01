@@ -3,8 +3,8 @@ package Vista;
 
 import Controlador.ConectarBD;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import javax.swing.JOptionPane;
 
 
 public class Principal extends javax.swing.JFrame {
@@ -124,12 +124,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void Listar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar1ActionPerformed
         this.setContentPane(panelListar);
-        panelListar.conexion=conexion;
+        /*panelListar.conexion=conexion;
         try {
             panelListar.rellenarArray();
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         pack();
       
         
@@ -140,25 +140,20 @@ public class Principal extends javax.swing.JFrame {
         
         this.setContentPane(panelListarTodos);
         panelListarTodos.conexion=conexion;
-        try {
-            panelListarTodos.rellenarArray("SELECT * FROM empleado");
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         pack();
        
        
     }//GEN-LAST:event_ListarTodosActionPerformed
-     
-     private void verLista() {
-        
+    
+    private void setMensajeError(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Error en la base de datos",JOptionPane.ERROR_MESSAGE);
     }
     
     /**
      * @param args the command line arguments
-     * @throws java.sql.SQLException
      */
-    public static void main(String args[]) throws SQLException {
+    public static void main(String args[]){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -186,6 +181,7 @@ public class Principal extends javax.swing.JFrame {
         });
         
         ConectarBD conec= new ConectarBD();
+        
         conexion=conec.conectar();
       
     }

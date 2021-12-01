@@ -10,6 +10,8 @@ import Modelo.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -31,12 +33,14 @@ public class PanelListarTodos extends javax.swing.JPanel {
         jList.setModel(lista);
     }
     
-    public void rellenarArray(String consulta) throws SQLException{
-        
+    public int rellenarArray(String consulta) throws SQLException{
+        int numCols ;
         empleados.clear();
         
         try (Statement stmt = conexion.createStatement(); ResultSet rs = stmt.executeQuery(consulta)) {
+            
             ResultSetMetaData rsmd = rs.getMetaData();
+            numCols= rsmd.getColumnCount();
             
             //Voy guardando los datos de las columnas en variables
             //que serán los parámetros para el constructor del futuro empleado
@@ -68,11 +72,22 @@ public class PanelListarTodos extends javax.swing.JPanel {
                 System.out.println("");
             }
             
+            
         }
-               
+        
+        return numCols;
     }
     
-    
+    public void mostrarEmpleados(){
+        
+        lista.removeAllElements();
+        
+        for (int i = 0; i < empleados.size(); i++) {
+            
+            lista.addElement(empleados.get(i));
+            lista.addElement("\n");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +113,7 @@ public class PanelListarTodos extends javax.swing.JPanel {
         jList.setMinimumSize(new java.awt.Dimension(36, 400));
         jScrollPane1.setViewportView(jList);
 
-        btMostrar.setText("Mostrar empleados");
+        btMostrar.setText("Mostrar todos los  empleados");
         btMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMostrarActionPerformed(evt);
@@ -119,22 +134,20 @@ public class PanelListarTodos extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(DateChooserInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addComponent(btFiltrar)
-                        .addGap(68, 68, 68)
-                        .addComponent(DateChooserFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89))))
+                        .addGap(55, 55, 55)
+                        .addComponent(DateChooserFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49))
             .addGroup(layout.createSequentialGroup()
-                .addGap(237, 237, 237)
+                .addGap(175, 175, 175)
                 .addComponent(btMostrar)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,25 +159,30 @@ public class PanelListarTodos extends javax.swing.JPanel {
                     .addComponent(btFiltrar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(28, 28, 28)
                 .addComponent(btMostrar)
-                .addContainerGap())
+                .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarActionPerformed
-        lista.removeAllElements();
         
-        for (int i = 0; i < empleados.size(); i++) {
-            
-            lista.addElement(empleados.get(i));
-            lista.addElement("\n");
+        try {
+            rellenarArray("SELECT * FROM empleado");
+        } catch (SQLException ex) {
+            setMensajeError("ERROR AL REALIZAR LA CONSULTA");
         }
+        
+        mostrarEmpleados();
         
     }//GEN-LAST:event_btMostrarActionPerformed
 
     private void setMensajeError(String mensaje){
         JOptionPane.showMessageDialog(this,mensaje,"Error en la introducción de datos",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void setMensajeExito(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Consulta realizada con éxito",JOptionPane.YES_OPTION);
     }
     
     
@@ -180,26 +198,21 @@ public class PanelListarTodos extends javax.swing.JPanel {
 
             fechaInicial= new Fecha(DateChooserInicial.getCalendar().get(Calendar.YEAR),
                 DateChooserInicial.getCalendar().get(Calendar.MONTH)+1,DateChooserInicial.getCalendar().get(Calendar.DATE));
-        
+           
+            System.out.println("Final:"+fechaFinal+" Inicial: "+fechaInicial);
             
-            
-            empleados.clear();
-            lista.removeAllElements();
-            
-            rellenarArray("SELECT * FROM empleado WHERE FECHAALTA BETWEEN "
+            int numCols=rellenarArray("SELECT * FROM empleado WHERE FECHAALTA BETWEEN "
                     +"'"+fechaInicial+"'"+" AND '"+fechaFinal+"'");
             
+            setMensajeExito("Se han encontrado "+numCols+" empeleados.");
+            
+            mostrarEmpleados();
+            
         } catch (SQLException ex) {
-            setMensajeError("Error al realizar la consulta.");
+            setMensajeError("Error al realizar la consulta."+ex.getMessage());
         }catch(NullPointerException ex){
             setMensajeError("Ambas fechas deben estar rellenas");
         }
-        
-        
-        
-       
-        
-        
     }//GEN-LAST:event_btFiltrarActionPerformed
 
 

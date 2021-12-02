@@ -5,18 +5,84 @@
  */
 package Vista;
 
+import Modelo.Empleado;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Rubén Martín
  */
 public class PanelListar extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelListar
-     */
-    public PanelListar() {
+    Connection conexion;
+    Statement stmt;
+    ResultSet rset=null;
+    
+    public PanelListar() throws SQLException {
+        
         initComponents();
+        
+        nombreField.setEditable(false);
+        numeroField.setEditable(false);
+        sueldoField.setEditable(false);
+        sueldoMaxField.setEditable(false);
+        fechaAltaField.setEditable(false);
+        apellidoField.setEditable(false);
+        
     }
+    
+    public boolean conectar(String consulta){
+        
+        try{
+            this.stmt = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            this.rset=stmt.executeQuery(consulta);
+        
+            if(rset.next()){
+                rset.beforeFirst();
+                return true;
+            }
+            return false;
+        } catch (SQLException e){
+            System.out.println("Ha currido un error de sql");
+            return false;
+        }  
+    }
+    
+    
+    
+    
+    public void inicializarCampos() throws SQLException{
+        
+        rset.next();
+        numeroField.setText(""+rset.getInt(1));
+        nombreField.setText(""+rset.getString(2));
+        apellidoField.setText(""+rset.getString(3));
+        sueldoField.setText(""+rset.getFloat(5));
+        sueldoMaxField.setText(""+rset.getFloat(6));
+        fechaAltaField.setText(""+rset.getString(7));
+        
+        btAnterior.setEnabled(false);
+    }
+    
+    public void apagarBotones() throws SQLException {
+
+        if (rset.isLast()) {
+            btSiguiente.setEnabled(false);
+            
+        } else {
+            btSiguiente.setEnabled(true);
+        }
+        
+        btAnterior.setEnabled(false);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,24 +93,46 @@ public class PanelListar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        numeroLabel = new javax.swing.JLabel();
+        nombreLabel = new javax.swing.JLabel();
+        apellidoLabel = new javax.swing.JLabel();
+        sueldoLabel = new javax.swing.JLabel();
+        sueldoMaxLabel = new javax.swing.JLabel();
+        fechaAltaLabel = new javax.swing.JLabel();
+        numeroField = new javax.swing.JTextField();
+        nombreField = new javax.swing.JTextField();
+        apellidoField = new javax.swing.JTextField();
+        sueldoField = new javax.swing.JTextField();
+        sueldoMaxField = new javax.swing.JTextField();
+        fechaAltaField = new javax.swing.JTextField();
+        btSiguiente = new javax.swing.JButton();
+        btAnterior = new javax.swing.JButton();
 
-        jLabel1.setText("Número:");
+        numeroLabel.setText("Número:");
 
-        jLabel2.setText("Nombre:");
+        nombreLabel.setText("Nombre:");
 
-        jLabel3.setText("Apellido:");
+        apellidoLabel.setText("Apellido:");
 
-        jLabel4.setText("Sueldo:");
+        sueldoLabel.setText("Sueldo:");
 
-        jLabel5.setText(" Sueldo Máximo:");
+        sueldoMaxLabel.setText(" Sueldo Máximo:");
 
-        jLabel6.setText("Fecha de Alta:");
+        fechaAltaLabel.setText("Fecha de Alta:");
+
+        btSiguiente.setText("Siguiente");
+        btSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSiguienteActionPerformed(evt);
+            }
+        });
+
+        btAnterior.setText("Anterior");
+        btAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAnteriorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -53,40 +141,123 @@ public class PanelListar extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addContainerGap(391, Short.MAX_VALUE))
+                    .addComponent(fechaAltaLabel)
+                    .addComponent(sueldoMaxLabel)
+                    .addComponent(sueldoLabel)
+                    .addComponent(apellidoLabel)
+                    .addComponent(nombreLabel)
+                    .addComponent(numeroLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fechaAltaField, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addComponent(sueldoMaxField)
+                    .addComponent(sueldoField)
+                    .addComponent(apellidoField)
+                    .addComponent(nombreField)
+                    .addComponent(numeroField))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btAnterior)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
+                .addComponent(btSiguiente)
+                .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1)
-                .addGap(36, 36, 36)
-                .addComponent(jLabel2)
                 .addGap(37, 37, 37)
-                .addComponent(jLabel3)
-                .addGap(26, 26, 26)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numeroLabel)
+                    .addComponent(numeroField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombreLabel)
+                    .addComponent(nombreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addComponent(jLabel6)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(apellidoLabel)
+                    .addComponent(apellidoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sueldoLabel)
+                    .addComponent(sueldoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sueldoMaxLabel)
+                    .addComponent(sueldoMaxField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaAltaLabel)
+                    .addComponent(fechaAltaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSiguiente)
+                    .addComponent(btAnterior))
+                .addGap(25, 25, 25))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
+        
+        try {
+            rset.next();
+            if(rset.isLast()){
+                btSiguiente.setEnabled(false);
+            } 
+            btAnterior.setEnabled(true);
+            
+            numeroField.setText(""+rset.getInt(1));
+            nombreField.setText(""+rset.getString(2));
+            apellidoField.setText(""+rset.getString(3));
+            sueldoField.setText(""+rset.getFloat(5));
+            sueldoMaxField.setText(""+rset.getFloat(6));
+            fechaAltaField.setText(""+rset.getString(7));
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btSiguienteActionPerformed
+
+    private void btAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAnteriorActionPerformed
+        try {
+            rset.previous();
+            if(rset.isFirst()){
+                btAnterior.setEnabled(false);
+            } 
+            btSiguiente.setEnabled(true);
+            
+            numeroField.setText(""+rset.getInt(1));
+            nombreField.setText(""+rset.getString(2));
+            apellidoField.setText(""+rset.getString(3));
+            sueldoField.setText(""+rset.getFloat(5));
+            sueldoMaxField.setText(""+rset.getFloat(6));
+            fechaAltaField.setText(""+rset.getString(7));
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btAnteriorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField apellidoField;
+    private javax.swing.JLabel apellidoLabel;
+    private javax.swing.JButton btAnterior;
+    private javax.swing.JButton btSiguiente;
+    private javax.swing.JTextField fechaAltaField;
+    private javax.swing.JLabel fechaAltaLabel;
+    private javax.swing.JTextField nombreField;
+    private javax.swing.JLabel nombreLabel;
+    private javax.swing.JTextField numeroField;
+    private javax.swing.JLabel numeroLabel;
+    private javax.swing.JTextField sueldoField;
+    private javax.swing.JLabel sueldoLabel;
+    private javax.swing.JTextField sueldoMaxField;
+    private javax.swing.JLabel sueldoMaxLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,6 +12,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,6 +56,8 @@ public class PanelListar extends javax.swing.JPanel {
     }
     
     
+    
+    
     public void inicializarCampos() throws SQLException{
         
         rset.next();
@@ -69,13 +73,11 @@ public class PanelListar extends javax.swing.JPanel {
     
     public void apagarBotones() throws SQLException {
 
-        if (rset.next()) {
-            btSiguiente.setEnabled(true);
-
-        } else {
+        if (rset.isLast()) {
             btSiguiente.setEnabled(false);
             
-
+        } else {
+            btSiguiente.setEnabled(true);
         }
         
         btAnterior.setEnabled(false);
@@ -198,10 +200,47 @@ public class PanelListar extends javax.swing.JPanel {
 
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
         
+        try {
+            rset.next();
+            if(rset.isLast()){
+                btSiguiente.setEnabled(false);
+            } 
+            btAnterior.setEnabled(true);
+            
+            numeroField.setText(""+rset.getInt(1));
+            nombreField.setText(""+rset.getString(2));
+            apellidoField.setText(""+rset.getString(3));
+            sueldoField.setText(""+rset.getFloat(5));
+            sueldoMaxField.setText(""+rset.getFloat(6));
+            fechaAltaField.setText(""+rset.getString(7));
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btSiguienteActionPerformed
 
     private void btAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAnteriorActionPerformed
-        
+        try {
+            rset.previous();
+            if(rset.isFirst()){
+                btAnterior.setEnabled(false);
+            } 
+            btSiguiente.setEnabled(true);
+            
+            numeroField.setText(""+rset.getInt(1));
+            nombreField.setText(""+rset.getString(2));
+            apellidoField.setText(""+rset.getString(3));
+            sueldoField.setText(""+rset.getFloat(5));
+            sueldoMaxField.setText(""+rset.getFloat(6));
+            fechaAltaField.setText(""+rset.getString(7));
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btAnteriorActionPerformed
 
 

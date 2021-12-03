@@ -32,7 +32,7 @@ public class Empleado {
         this.sueldoMaximo=sueldoMaximo;        
         fechaAlta=new Fecha(anio, mes, dia);
         
-    }
+}
     
     public void setNumero(int numero){
         this.numero=numero;

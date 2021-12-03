@@ -6,11 +6,14 @@
 package Vista;
 
 
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import javax.swing.JOptionPane;
 
@@ -64,13 +67,21 @@ public class PanelListar extends javax.swing.JPanel {
     
     public void inicializarCampos() {
         
+        String rutaFoto="C:\\Users\\Javir\\OneDrive\\Escritorio\\DAM\\2ºDAM\\PMDM\\Practica5Git\\"
+                + "Practica5\\Practica5\\Fotos\\";
+        
         try {
-            
             rset.next();
          
             numeroField.setText(""+rset.getInt(1));
             nombreField.setText(""+rset.getString(2));
             apellidoField.setText(""+rset.getString(3));
+            System.out.println(rutaFoto+rset.getString(4));
+            
+            ImageIcon imgIcon=new ImageIcon(rutaFoto+rset.getString(4));
+            Icon icono=new ImageIcon(imgIcon.getImage().getScaledInstance(fotoLabel.getWidth(), fotoLabel.getHeight(), Image.SCALE_DEFAULT));
+            fotoLabel.setIcon(icono);
+            
             sueldoField.setText(""+rset.getFloat(5));
             sueldoMaxField.setText(""+rset.getFloat(6));
             fechaAltaField.setText(""+rset.getString(7));
@@ -122,6 +133,7 @@ public class PanelListar extends javax.swing.JPanel {
         fechaAltaField = new javax.swing.JTextField();
         btSiguiente = new javax.swing.JButton();
         btAnterior = new javax.swing.JButton();
+        fotoLabel = new javax.swing.JLabel();
 
         numeroLabel.setText("Número:");
 
@@ -153,8 +165,14 @@ public class PanelListar extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btAnterior)
+                .addGap(428, 428, 428)
+                .addComponent(btSiguiente)
+                .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(117, 117, 117)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(fechaAltaLabel)
                     .addComponent(sueldoMaxLabel)
@@ -164,24 +182,23 @@ public class PanelListar extends javax.swing.JPanel {
                     .addComponent(numeroLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(fechaAltaField, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addComponent(fechaAltaField)
                     .addComponent(sueldoMaxField)
                     .addComponent(sueldoField)
                     .addComponent(apellidoField)
                     .addComponent(nombreField)
-                    .addComponent(numeroField))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(btAnterior)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
-                .addComponent(btSiguiente)
-                .addGap(83, 83, 83))
+                    .addComponent(numeroField, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(fotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(32, 32, 32)
+                .addComponent(fotoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numeroLabel)
                     .addComponent(numeroField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,7 +222,7 @@ public class PanelListar extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fechaAltaLabel)
                     .addComponent(fechaAltaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSiguiente)
                     .addComponent(btAnterior))
@@ -222,9 +239,18 @@ public class PanelListar extends javax.swing.JPanel {
             } 
             btAnterior.setEnabled(true);
             
+            String rutaFoto="C:\\Users\\Javir\\OneDrive\\Escritorio\\DAM\\2ºDAM\\PMDM\\Practica5Git\\"
+                + "Practica5\\Practica5\\Fotos\\";
+            
+            
             numeroField.setText(""+rset.getInt(1));
             nombreField.setText(""+rset.getString(2));
             apellidoField.setText(""+rset.getString(3));
+            
+            ImageIcon imgIcon=new ImageIcon(rutaFoto+rset.getString(4));
+            Icon icono=new ImageIcon(imgIcon.getImage().getScaledInstance(fotoLabel.getWidth(), fotoLabel.getHeight(), Image.SCALE_DEFAULT));
+            fotoLabel.setIcon(icono);
+            
             sueldoField.setText(""+rset.getFloat(5));
             sueldoMaxField.setText(""+rset.getFloat(6));
             fechaAltaField.setText(""+rset.getString(7));
@@ -237,6 +263,7 @@ public class PanelListar extends javax.swing.JPanel {
     }//GEN-LAST:event_btSiguienteActionPerformed
 
     private void btAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAnteriorActionPerformed
+        
         try {
             rset.previous();
             if(rset.isFirst()){
@@ -244,9 +271,17 @@ public class PanelListar extends javax.swing.JPanel {
             } 
             btSiguiente.setEnabled(true);
             
+            String rutaFoto="C:\\Users\\Javir\\OneDrive\\Escritorio\\DAM\\2ºDAM\\PMDM\\Practica5Git\\"
+                + "Practica5\\Practica5\\Fotos\\";
+            
             numeroField.setText(""+rset.getInt(1));
             nombreField.setText(""+rset.getString(2));
             apellidoField.setText(""+rset.getString(3));
+            
+            ImageIcon imgIcon=new ImageIcon(rutaFoto+rset.getString(4));
+            Icon icono=new ImageIcon(imgIcon.getImage().getScaledInstance(fotoLabel.getWidth(), fotoLabel.getHeight(), Image.SCALE_DEFAULT));
+            fotoLabel.setIcon(icono);
+            
             sueldoField.setText(""+rset.getFloat(5));
             sueldoMaxField.setText(""+rset.getFloat(6));
             fechaAltaField.setText(""+rset.getString(7));
@@ -266,6 +301,7 @@ public class PanelListar extends javax.swing.JPanel {
     private javax.swing.JButton btSiguiente;
     private javax.swing.JTextField fechaAltaField;
     private javax.swing.JLabel fechaAltaLabel;
+    private javax.swing.JLabel fotoLabel;
     private javax.swing.JTextField nombreField;
     private javax.swing.JLabel nombreLabel;
     private javax.swing.JTextField numeroField;

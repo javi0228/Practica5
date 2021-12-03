@@ -110,21 +110,23 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(234, 234, 234)
                 .addComponent(labelPractica)
-                .addContainerGap(262, Short.MAX_VALUE))
+                .addGap(216, 216, 216))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(155, 155, 155)
+                .addGap(176, 176, 176)
                 .addComponent(labelPractica)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addGap(268, 268, 268))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcercaDeActionPerformed
-        // TODO add your handling code here:
+        
+        this.setContentPane(panelAyuda);
+        pack();
        
     }//GEN-LAST:event_AcercaDeActionPerformed
 
@@ -237,6 +239,7 @@ public class Principal extends javax.swing.JFrame {
     private final PanelListarTodos panelListarTodos=new PanelListarTodos();
     private final PanelListar panelListar= new PanelListar();
     private final PanelConectar panelConectar= new PanelConectar();
+    private final PanelAyuda panelAyuda= new PanelAyuda();
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

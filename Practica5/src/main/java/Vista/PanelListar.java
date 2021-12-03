@@ -5,15 +5,14 @@
  */
 package Vista;
 
-import Modelo.Empleado;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +24,7 @@ public class PanelListar extends javax.swing.JPanel {
     Statement stmt;
     ResultSet rset=null;
     
-    public PanelListar() throws SQLException {
+    public PanelListar()  {
         
         initComponents();
         
@@ -37,6 +36,11 @@ public class PanelListar extends javax.swing.JPanel {
         apellidoField.setEditable(false);
         
     }
+    
+    private void setMensajeError(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Consulta fallida",JOptionPane.ERROR_MESSAGE);
+    }
+    
     
     public boolean conectar(String consulta){
         
@@ -50,7 +54,7 @@ public class PanelListar extends javax.swing.JPanel {
             }
             return false;
         } catch (SQLException e){
-            System.out.println("Ha currido un error de sql");
+            setMensajeError("Ha ocurrido un error al realizar la consulta");
             return false;
         }  
     }
@@ -58,26 +62,37 @@ public class PanelListar extends javax.swing.JPanel {
     
     
     
-    public void inicializarCampos() throws SQLException{
+    public void inicializarCampos() {
         
-        rset.next();
-        numeroField.setText(""+rset.getInt(1));
-        nombreField.setText(""+rset.getString(2));
-        apellidoField.setText(""+rset.getString(3));
-        sueldoField.setText(""+rset.getFloat(5));
-        sueldoMaxField.setText(""+rset.getFloat(6));
-        fechaAltaField.setText(""+rset.getString(7));
+        try {
+            
+            rset.next();
+         
+            numeroField.setText(""+rset.getInt(1));
+            nombreField.setText(""+rset.getString(2));
+            apellidoField.setText(""+rset.getString(3));
+            sueldoField.setText(""+rset.getFloat(5));
+            sueldoMaxField.setText(""+rset.getFloat(6));
+            fechaAltaField.setText(""+rset.getString(7));
+        }catch (SQLException ex) {
+            setMensajeError("Ha ocurrido un error al realizar la consulta");
+        }
         
         btAnterior.setEnabled(false);
     }
     
-    public void apagarBotones() throws SQLException {
+    public void apagarBotones()  {
 
-        if (rset.isLast()) {
-            btSiguiente.setEnabled(false);
+        try {
+            if (rset.isLast()) {
+                btSiguiente.setEnabled(false);
+                
+            } else {
+                btSiguiente.setEnabled(true);
+            }
             
-        } else {
-            btSiguiente.setEnabled(true);
+        } catch (SQLException ex) {
+            setMensajeError("Ha ocurrido un error al realizar la consulta");
         }
         
         btAnterior.setEnabled(false);
@@ -217,7 +232,7 @@ public class PanelListar extends javax.swing.JPanel {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+            setMensajeError("Ha ocurrido un error al realizar la consulta");
         }
     }//GEN-LAST:event_btSiguienteActionPerformed
 
@@ -239,7 +254,7 @@ public class PanelListar extends javax.swing.JPanel {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(PanelListar.class.getName()).log(Level.SEVERE, null, ex);
+            setMensajeError("Ha ocurrido un error al realizar la consulta");
         }
     }//GEN-LAST:event_btAnteriorActionPerformed
 

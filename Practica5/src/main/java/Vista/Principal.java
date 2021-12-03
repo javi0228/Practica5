@@ -3,21 +3,21 @@ package Vista;
 
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 
 
 public class Principal extends javax.swing.JFrame {
     
     static private Connection conexion;
-   
-    public Principal() throws SQLException {
-       
-        
+    static private boolean conectado=false;
+    
+    public Principal(){
         initComponents();
         
     }
     
-   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +55,11 @@ public class Principal extends javax.swing.JFrame {
         MenuConectarDesconectar.add(ConectarItem);
 
         DesconectarItem.setText("Desconectar BD");
+        DesconectarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DesconectarItemActionPerformed(evt);
+            }
+        });
         MenuConectarDesconectar.add(DesconectarItem);
 
         BarraMenu.add(MenuConectarDesconectar);
@@ -129,40 +134,70 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ListarActionPerformed
 
     private void Listar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar1ActionPerformed
-        this.setContentPane(panelListar);
-        /*panelListar.conexion=conexion;
-        try {
+        
+        if(conectado){
+        
+            this.setContentPane(panelListar);
+
+            panelListar.conexion=conexion;
             panelListar.conectar("SELECT * FROM empleado");
             panelListar.inicializarCampos();
             panelListar.apagarBotones();
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        pack();
-      
-        
+
+            pack();
+        }else
+            setMensajeError("Debe conectarse a la base de datos.");
     }//GEN-LAST:event_Listar1ActionPerformed
 
     public static void setConexion(Connection con){
         Principal.conexion=con;
+        conectado=true;
     }
+    
+    public void setMensajeError(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Base de datos desconectada.",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    
+    public void setMensajeExito(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Desconectado",JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    
     
     private void ListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarTodosActionPerformed
         
-        this.setContentPane(panelListarTodos);
-        panelListarTodos.conexion=conexion;
-        
-        pack();
+        if(conectado){
+            this.setContentPane(panelListarTodos);
+            panelListarTodos.conexion=conexion;
+
+            pack();
        
-       
+        }else
+            setMensajeError("Debe conectarse a la base de datos.");
     }//GEN-LAST:event_ListarTodosActionPerformed
 
     private void ConectarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarItemActionPerformed
         this.setContentPane(panelConectar);
-        
-        
+        panelConectar.inicializarCampos();
         pack();
     }//GEN-LAST:event_ConectarItemActionPerformed
+
+    private void DesconectarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DesconectarItemActionPerformed
+
+        if (conectado) {
+            try {
+                Principal.conexion.close();
+                conectado=false;
+                this.setContentPane(panelConectar);
+                setMensajeExito("Desconectado con éxito.");
+            } catch (SQLException ex) {
+                setMensajeError("Erro al desconectase de la base de datos.");
+            }
+        }else
+            setMensajeError("Debe conectarse a la base datos.");
+        
+    }//GEN-LAST:event_DesconectarItemActionPerformed
     
     
     /**
@@ -192,15 +227,11 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            try {
-                new Principal().setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        
-        
-       
+            new Principal().setVisible(true);
+            
+                
+            
+        });  
     }
    
     private final PanelListarTodos panelListarTodos=new PanelListarTodos();

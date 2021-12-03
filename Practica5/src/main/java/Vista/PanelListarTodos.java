@@ -10,8 +10,6 @@ import Modelo.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -38,9 +36,6 @@ public class PanelListarTodos extends javax.swing.JPanel {
         empleados.clear();
         
         try (Statement stmt = conexion.createStatement(); ResultSet rs = stmt.executeQuery(consulta)) {
-            
-            ResultSetMetaData rsmd = rs.getMetaData();
-            
             
             //Voy guardando los datos de las columnas en variables
             //que serán los parámetros para el constructor del futuro empleado

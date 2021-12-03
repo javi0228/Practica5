@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.ConectarBD;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -100,31 +101,38 @@ public class PanelConectar extends javax.swing.JPanel {
 
     private void btConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConectarActionPerformed
         
-        char[] arr_contraseña;
-        String contraseña;
+        char[] arr_contraseña;//array donde guardo los caracteres de la contraseña
+        String contraseña;//almaceno la contraseña con String.valueOf
         
         if(comprobarContraseña()){
             
             ConectarBD con=new ConectarBD();
+            
             arr_contraseña=contraseñaField.getPassword();
             contraseña=String.valueOf(arr_contraseña);
-            System.out.println("Usuario: "+usuarioField.getText()+" Contraseña: "+contraseña);
+            
             try {
+                
                 conexion=con.conectar(usuarioField.getText(),contraseña);
                 Principal.setConexion(conexion);
+                inicializarCampos();
+                
                 setMensajeExito("Conectado a la base de datos con éxito");
+                
             } catch (SQLException ex) {
+                
                 setMensajeError("El usuario o la contraseña no son válidos");
             }
         }else{
+            //confirmContraseñaField.setBackground(Color.red);
+            confirmContraseñaField.requestFocus();
+            
+            
+            confirmContraseñaField.setForeground(Color.red);
             setMensajeError("Las contraseñas introducidas no coinciden");
         }
     }//GEN-LAST:event_btConectarActionPerformed
 
-    
-    public Connection getConexion(){
-        return conexion;
-    }
     
     public void setMensajeError(String mensaje){
         JOptionPane.showMessageDialog(this,mensaje,"Error al conectarse a la base de datos",JOptionPane.ERROR_MESSAGE);
@@ -135,6 +143,13 @@ public class PanelConectar extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this,mensaje,"Conectado",JOptionPane.INFORMATION_MESSAGE);
     }
     
+    public void inicializarCampos(){
+        usuarioField.requestFocus();
+        usuarioField.setText(null);
+        contraseñaField.setText(null);
+        confirmContraseñaField.setText(null);
+        confirmContraseñaField.setForeground(null);
+    }
     
     
     @SuppressWarnings("empty-statement")

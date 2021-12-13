@@ -17,36 +17,41 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="btAnterior" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="428" max="-2" attributes="0"/>
-              <Component id="btSiguiente" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="fechaAltaLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="sueldoMaxLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="sueldoLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="apellidoLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="nombreLabel" min="-2" max="-2" attributes="0"/>
-                  <Component id="numeroLabel" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="fechaAltaField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="sueldoMaxField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="sueldoField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="apellidoField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="nombreField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="numeroField" alignment="0" min="-2" pref="224" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="fotoLabel" min="-2" pref="162" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="fechaAltaLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="sueldoMaxLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="sueldoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="apellidoLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="nombreLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="numeroLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="fechaAltaField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sueldoMaxField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sueldoField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="apellidoField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nombreField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="numeroField" alignment="0" min="-2" pref="224" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <Component id="fotoLabel" min="-2" pref="162" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="comboApellido" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="btAnterior" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="428" max="-2" attributes="0"/>
+                      <Component id="btSiguiente" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -54,7 +59,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-              <Component id="fotoLabel" min="-2" pref="97" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="fotoLabel" min="-2" pref="97" max="-2" attributes="0"/>
+                  <Component id="comboApellido" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="numeroLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -155,6 +163,22 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="fotoLabel">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="comboApellido">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="1">
+            <StringItem index="0" value="Elija un apellido"/>
+          </StringArray>
+        </Property>
+        <Property name="name" type="java.lang.String" value="comboApellido" noResource="true"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboApellidoActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

@@ -3,6 +3,8 @@ package Vista;
 
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -145,6 +147,11 @@ public class Principal extends javax.swing.JFrame {
             panelListar.conectar("SELECT * FROM empleado");
             panelListar.inicializarCampos();
             panelListar.apagarBotones();
+            try {
+                panelListar.rellenarArrayCombo();
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             pack();
         }else

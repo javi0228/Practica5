@@ -32,7 +32,7 @@ public class Empleado {
         this.sueldoMaximo=sueldoMaximo;        
         fechaAlta=new Fecha(anio, mes, dia);
         
-    }
+}
     
     public void setNumero(int numero){
         this.numero=numero;
@@ -92,8 +92,8 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "\nNumero: "+numero+"\nNombre: "+nombre+"\nApellidos: "+apellido+"\nFoto: "+foto+
-                "\nSueldo: "+sueldo+"\nSueldo Maximo: "+sueldoMaximo+"\nFecha de alta: "+fechaAlta;
+        return "\n "+numero+"\n  "+nombre+"\n  "+apellido+"\n  "+foto+
+                "\n  "+sueldo+"\n  "+sueldoMaximo+"\n  "+fechaAlta;
     }
     
     

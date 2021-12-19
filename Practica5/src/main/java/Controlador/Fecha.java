@@ -19,6 +19,8 @@ public class Fecha implements Serializable{
 
     public Fecha(int anio,int mes,int dia) {
         cal=new GregorianCalendar();
+        if(mes<11)
+            mes++;
         cal.set(anio, mes, dia);
         
     }
@@ -39,7 +41,7 @@ public class Fecha implements Serializable{
 
     @Override
     public String toString() {
-        return ""+cal.get(Calendar.DATE)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.YEAR); //To change body of generated methods, choose Tools | Templates.
+        return cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DATE);
     }
     
     

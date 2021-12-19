@@ -1,23 +1,25 @@
 
 package Vista;
 
-import Controlador.ConectarBD;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 
 
 public class Principal extends javax.swing.JFrame {
     
     static private Connection conexion;
-   
-    public Principal() {
-        
+    static private boolean conectado=false;
+    
+    public Principal(){
         initComponents();
-        labelNoDatos.setVisible(false);
+        
     }
     
-   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,8 +30,10 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         labelPractica = new javax.swing.JLabel();
-        labelNoDatos = new javax.swing.JLabel();
         BarraMenu = new javax.swing.JMenuBar();
+        MenuConectarDesconectar = new javax.swing.JMenu();
+        ConectarItem = new javax.swing.JMenuItem();
+        DesconectarItem = new javax.swing.JMenuItem();
         Listar = new javax.swing.JMenu();
         Listar1 = new javax.swing.JMenuItem();
         ListarTodos = new javax.swing.JMenuItem();
@@ -42,9 +46,25 @@ public class Principal extends javax.swing.JFrame {
         labelPractica.setFont(new java.awt.Font("DialogInput", 1, 24)); // NOI18N
         labelPractica.setText("PRÁCTICA 5");
 
-        labelNoDatos.setFont(new java.awt.Font("DialogInput", 1, 24)); // NOI18N
-        labelNoDatos.setForeground(new java.awt.Color(255, 51, 51));
-        labelNoDatos.setText("NO HAY DATOS EN LA LISTA");
+        MenuConectarDesconectar.setText("Conectar/Desconectar");
+
+        ConectarItem.setText("Conectar BD");
+        ConectarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConectarItemActionPerformed(evt);
+            }
+        });
+        MenuConectarDesconectar.add(ConectarItem);
+
+        DesconectarItem.setText("Desconectar BD");
+        DesconectarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DesconectarItemActionPerformed(evt);
+            }
+        });
+        MenuConectarDesconectar.add(DesconectarItem);
+
+        BarraMenu.add(MenuConectarDesconectar);
 
         Listar.setLabel("Listar");
         Listar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,30 +110,25 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(labelNoDatos))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(243, 243, 243)
-                        .addComponent(labelPractica)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addGap(234, 234, 234)
+                .addComponent(labelPractica)
+                .addGap(216, 216, 216))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(187, Short.MAX_VALUE)
+                .addGap(176, 176, 176)
                 .addComponent(labelPractica)
-                .addGap(63, 63, 63)
-                .addComponent(labelNoDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                .addGap(268, 268, 268))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcercaDeActionPerformed
-        // TODO add your handling code here:
+        
+        this.setContentPane(panelAyuda);
+        pack();
        
     }//GEN-LAST:event_AcercaDeActionPerformed
 
@@ -124,34 +139,80 @@ public class Principal extends javax.swing.JFrame {
 
     private void Listar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Listar1ActionPerformed
         
-      
+        if(conectado){
         
+            this.setContentPane(panelListar);
+
+            panelListar.conexion=conexion;
+            panelListar.conectar("SELECT * FROM empleado");
+            panelListar.inicializarCampos();
+            panelListar.apagarBotones();
+            try {
+                panelListar.rellenarArrayCombo();
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            pack();
+        }else
+            setMensajeError("Debe conectarse a la base de datos.");
     }//GEN-LAST:event_Listar1ActionPerformed
 
+    public static void setConexion(Connection con){
+        Principal.conexion=con;
+        conectado=true;
+    }
+    
+    public void setMensajeError(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Base de datos desconectada.",JOptionPane.ERROR_MESSAGE);
+    }
+    
+    
+    public void setMensajeExito(String mensaje){
+        JOptionPane.showMessageDialog(this,mensaje,"Desconectado",JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    
     
     private void ListarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarTodosActionPerformed
         
-        this.setContentPane(panelListarTodos);
-        panelListarTodos.conexion=conexion;
-        try {
-            panelListarTodos.rellenarArray();
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        pack();
+        if(conectado){
+            this.setContentPane(panelListarTodos);
+            panelListarTodos.conexion=conexion;
+
+            pack();
        
-       
+        }else
+            setMensajeError("Debe conectarse a la base de datos.");
     }//GEN-LAST:event_ListarTodosActionPerformed
-     
-     private void verLista() {
+
+    private void ConectarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarItemActionPerformed
+        this.setContentPane(panelConectar);
+        panelConectar.inicializarCampos();
+        pack();
+    }//GEN-LAST:event_ConectarItemActionPerformed
+
+    private void DesconectarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DesconectarItemActionPerformed
+
+        if (conectado) {
+            try {
+                Principal.conexion.close();
+                conectado=false;
+                this.setContentPane(panelConectar);
+                setMensajeExito("Desconectado con éxito.");
+            } catch (SQLException ex) {
+                setMensajeError("Erro al desconectase de la base de datos.");
+            }
+        }else
+            setMensajeError("Debe conectarse a la base datos.");
         
-    }
+    }//GEN-LAST:event_DesconectarItemActionPerformed
+    
     
     /**
      * @param args the command line arguments
-     * @throws java.sql.SQLException
      */
-    public static void main(String args[]) throws SQLException {
+    public static void main(String args[]){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -176,28 +237,28 @@ public class Principal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Principal().setVisible(true);
-        });
-        
-        ConectarBD conec= new ConectarBD();
-        conexion=conec.conectar();
-      
+            
+                
+            
+        });  
     }
- 
-
-    
-    //private final PanelListar panelListar= new PanelListar();
+   
     private final PanelListarTodos panelListarTodos=new PanelListarTodos();
-    
-    
+    private final PanelListar panelListar= new PanelListar();
+    private final PanelConectar panelConectar= new PanelConectar();
+    private final PanelAyuda panelAyuda= new PanelAyuda();
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem AcercaDe;
     private javax.swing.JMenu Ayuda;
     private javax.swing.JMenuBar BarraMenu;
+    private javax.swing.JMenuItem ConectarItem;
+    private javax.swing.JMenuItem DesconectarItem;
     private javax.swing.JMenu Listar;
     private javax.swing.JMenuItem Listar1;
     private javax.swing.JMenuItem ListarTodos;
-    private javax.swing.JLabel labelNoDatos;
+    private javax.swing.JMenu MenuConectarDesconectar;
     private javax.swing.JLabel labelPractica;
     // End of variables declaration//GEN-END:variables
 

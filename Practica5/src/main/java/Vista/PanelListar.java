@@ -102,8 +102,7 @@ public class PanelListar extends javax.swing.JPanel {
     
     public void inicializarCampos() {
         
-        String rutaFoto="C:\\Users\\Javir\\OneDrive\\Escritorio\\DAM\\2ºDAM\\PMDM\\Practica5Git\\"
-                + "Practica5\\Practica5\\Fotos\\";
+        String rutaFoto="Fotos\\";
         
         try {
             rset.next();

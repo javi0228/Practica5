@@ -7,9 +7,9 @@ package Controlador;
 
 
 import Vista.Principal;
-import java.awt.Component;
+
 import java.sql.*;
-import javax.swing.JOptionPane;
+
 
 
 /**
@@ -18,7 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class ConectarBD {
     Connection con;
-
+    Statement stm;
+    ResultSet rs;
     
     
     public Connection conectar(String user,String password) throws SQLException{
